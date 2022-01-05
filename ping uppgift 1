@@ -14,7 +14,7 @@ namespace prog_2_ping
            
             Ping ping = new Ping();
             IPAddress target_address;
-            Console.Write("Ange en IP-adress:");
+            Console.Write("Ange en IP-adress för att pinga den:");
             bool parse_sucessful = IPAddress.TryParse(Console.ReadLine(), out target_address);
 
             while (parse_sucessful == false)
@@ -22,12 +22,17 @@ namespace prog_2_ping
                 parse_sucessful = IPAddress.TryParse(Console.ReadLine(), out target_address);
 
             }
-            PingReply result = ping.Send(target_address);
-            Console.WriteLine(result.Address);
-            Console.WriteLine(result.RoundtripTime);
-            Console.WriteLine(result.Status);
-            string log = DateTime.Now.ToString() + "\n" + result.Address + "\n" + result.RoundtripTime + "\n" + result.Status + "\n\n";
-            File.AppendAllText("text.txt", log);
+
+            for (int a = 0; a < 50; a--)
+            {
+                PingReply result = ping.Send(target_address);
+                Console.WriteLine(result.Address);
+                Console.WriteLine(result.RoundtripTime);
+                Console.WriteLine(result.Status);
+                string log = DateTime.Now.ToString() + "\n" + result.Address + "\n" + result.RoundtripTime + "\n" + result.Status + "\n\n";
+                File.AppendAllText("text.txt", log);
+            }
+           
 
         }
     }
