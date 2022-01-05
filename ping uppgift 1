@@ -1,0 +1,34 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Net.NetworkInformation;
+
+
+namespace prog_2_ping
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+           
+            Ping ping = new Ping();
+            IPAddress target_address;
+            Console.Write("Ange en IP-adress:");
+            bool parse_sucessful = IPAddress.TryParse(Console.ReadLine(), out target_address);
+
+            while (parse_sucessful == false)
+            {
+                parse_sucessful = IPAddress.TryParse(Console.ReadLine(), out target_address);
+
+            }
+            PingReply result = ping.Send(target_address);
+            Console.WriteLine(result.Address);
+            Console.WriteLine(result.RoundtripTime);
+            Console.WriteLine(result.Status);
+            string log = DateTime.Now.ToString() + "\n" + result.Address + "\n" + result.RoundtripTime + "\n" + result.Status + "\n\n";
+            File.AppendAllText("text.txt", log);
+
+        }
+    }
+}
